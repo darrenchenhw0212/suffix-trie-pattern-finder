@@ -8,7 +8,7 @@ A Python implementation of a suffix trie for efficient substring pattern matchin
 
 This project models a string indexing problem using a suffix trie. During preprocessing, every suffix of the input sequence is inserted into the trie, allowing substring occurrences to be located efficiently through trie traversal.
 
-Unlike a standard substring search problem, each query must satisfy three conditions:
+Unlike a standard substring search problem, a valid query must satisfy three conditions:
 
 - the substring begins with a specified prefix,
 - the substring ends with a specified suffix,
@@ -20,11 +20,42 @@ The primary challenge of this project lies in designing the trie representation 
 
 ---
 
-## Example Trie
+## Suffix Trie Construction
 
-![Example Trie](images/suffix_trie_example.svg)
+The figure below illustrates how the suffix trie is constructed from an input sequence and how metadata (`children_tuple`) is stored at each non-root node during suffix insertion. The highlighted node demonstrates how each tuple records the suffixes passing through that node, enabling efficient pattern matching during later queries.
 
-**Figure 1.** Example suffix trie illustrating how suffixes are indexed and how occurrence metadata stored within trie nodes is later used to reconstruct valid prefix–suffix matches.
+![Suffix Trie Construction](images/suffix_trie_construction.svg)
+
+**Figure 1.** Construction of the suffix trie from the input sequence `ABACD$`. Each non-root node stores metadata describing every suffix that passes through it, allowing later queries to efficiently reconstruct valid prefix–suffix matches without traversing the original sequence.
+
+---
+
+## Query Processing
+
+Once the suffix trie has been constructed, each query is processed in three stages.
+
+1. Search the trie using the **start** pattern.
+2. Search the trie using the **end** pattern.
+3. Compare the returned metadata to identify non-overlapping matches and reconstruct the corresponding substrings.
+
+The overlap constraint is enforced using:
+
+```python
+if start_tuple[2] - 1 < end_tuple[1]:
+```
+
+where:
+
+- `start_tuple[2]` is the exclusive index reached after matching the start pattern.
+- `end_tuple[1]` is the starting index of the matched end pattern.
+
+If the condition is satisfied, the substring is reconstructed using:
+
+```python
+genome[start_tuple[1] : end_tuple[2]]
+```
+
+which naturally uses Python's exclusive slicing semantics.
 
 ---
 
@@ -80,7 +111,7 @@ suffix-trie-pattern-finder/
 │   └── example_usage.py
 │
 ├── images/
-│   └── suffix_trie_example.svg
+│   └── suffix_trie_construction.svg
 │
 ├── src/
 │   ├── __init__.py
@@ -168,5 +199,5 @@ Potential extensions to this project include:
 - Support arbitrary alphabets instead of `{A, B, C, D}`
 - Compress the trie into a suffix tree to reduce memory usage
 - Support wildcard pattern matching
-- Add visualization of trie construction and search traversal
-- Benchmark against established string-search algorithms and libraries
+- Visualize query execution using the stored metadata.
+- Benchmark against established string-search algorithms and libraries.

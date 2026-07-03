@@ -9,7 +9,7 @@ class PatternFinder:
     efficiently.
     """
     
-    def __init__(self, genome):
+    def __init__(self, sequence):
         """
         Initialize a PatternFinder object.
 
@@ -19,13 +19,13 @@ class PatternFinder:
         performed efficiently.
 
         Input:
-            genome:
+            sequence:
                 Input sequence to be indexed.
 
         Output:
             Creates a PatternFinder object containing:
-            - genome_with_terminal: the input sequence appended with '$'.
-            - genome: a suffix trie built from every suffix of the sequence.
+            - sequence_with_terminal: the input sequence appended with '$'.
+            - sequence: a suffix trie built from every suffix of the sequence.
 
         Time Complexity:
             O(N²)
@@ -48,14 +48,14 @@ class PatternFinder:
             Therefore, the total space required is O(N²).
         """
         # Append the terminal symbol to simplify suffix insertion.
-        self.genome_with_terminal = genome + "$"
+        self.sequence_with_terminal = sequence + "$"
 
         # Build the suffix trie used for pattern searching.
-        self.genome = SuffixTrie()
+        self.sequence = SuffixTrie()
 
         # Insert every suffix into the trie.
-        for i in range(len(self.genome_with_terminal)):
-            self.genome.insert(i, self.genome_with_terminal)
+        for i in range(len(self.sequence_with_terminal)):
+            self.sequence.insert(i, self.sequence_with_terminal)
             
     def find(self, start, end):
         """
@@ -127,10 +127,10 @@ class PatternFinder:
         output = []
 
         # Retrieve all occurrences of the start substring.
-        first_half = self.genome.search(start)
+        first_half = self.sequence.search(start)
 
         # Retrieve all occurrences of the end substring.
-        second_half = self.genome.search(end)
+        second_half = self.sequence.search(end)
         
         # No valid substring can be formed if either pattern does not exist.
         if second_half == [] or first_half == []:
@@ -147,7 +147,7 @@ class PatternFinder:
         for i in first_half:
             for j in second_half:
                 if i[2] - 1 < j[1]:
-                    output.append(self.genome_with_terminal[i[1]:j[2]])
+                    output.append(self.sequence_with_terminal[i[1]:j[2]])
         
         return output
     

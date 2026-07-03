@@ -99,8 +99,6 @@ class SuffixTrie:
                     # the number of tuples stored across the trie will be in the form of (N(N+1)/2)
                     current.children_tuple.append(current_tuple)
                     
-                    #print(current_tuple)
-
                 # if path doesn't exist 
                 else:
 
@@ -119,7 +117,6 @@ class SuffixTrie:
                     # the number of tuples stored across the trie will be in the form of (N(N+1)/2)
                     current.children_tuple.append(current_tuple)
                     
-                    #print(current_tuple)
 
             # if have reached the terminal $
             if char == "$":  

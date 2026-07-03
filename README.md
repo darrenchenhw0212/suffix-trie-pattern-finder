@@ -5,8 +5,6 @@
 ![Data Structure](https://img.shields.io/badge/Data%20Structure-Suffix%20Trie-orange)
 ![Algorithm](https://img.shields.io/badge/Algorithm-Pattern%20Matching-purple)
 
-A Python implementation of a suffix trie...
-
 A Python implementation of a suffix trie for efficient substring pattern matching. The project preprocesses an input sequence into a suffix trie and supports repeated queries to find all substrings that begin with a specified prefix and end with a specified suffix while enforcing a non-overlapping constraint.
 
 ---

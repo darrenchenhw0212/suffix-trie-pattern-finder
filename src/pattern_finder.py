@@ -1,3 +1,4 @@
+from .suffix_trie import SuffixTrie
 class PatternFinder:
     """
     Finds substrings that begin with a specified prefix and end with a

@@ -1,3 +1,4 @@
+from .node import Node
 class SuffixTrie:
 
     def __init__(self) -> None:

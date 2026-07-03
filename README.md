@@ -211,3 +211,9 @@ Potential extensions to this project include:
 - Support wildcard pattern matching
 - Visualize dynamic trie construction and query execution interactively.
 - Benchmark against established string-search algorithms and libraries.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

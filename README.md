@@ -60,7 +60,7 @@ where:
 Each valid tuple pair reconstructs a substring using:
 
 ```python
-genome[start_tuple[1] : end_tuple[2]]
+sequence[start_tuple[1] : end_tuple[2]]
 ```
 
 which naturally follows Python's end-exclusive slicing semantics.

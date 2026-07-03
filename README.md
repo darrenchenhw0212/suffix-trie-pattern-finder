@@ -32,11 +32,14 @@ The figure below illustrates how the suffix trie is constructed from an input se
 
 ## Query Processing
 
-Once the suffix trie has been constructed, each query is processed in three stages.
+After the suffix trie has been constructed, each query is processed by searching the trie twice and comparing the stored metadata rather than traversing the original sequence.
+
+The algorithm performs the following steps:
 
 1. Search the trie using the **start** pattern.
 2. Search the trie using the **end** pattern.
-3. Compare the returned metadata to identify non-overlapping matches and reconstruct the corresponding substrings.
+3. Compare the returned metadata to identify valid non-overlapping tuple pairs.
+4. Reconstruct the corresponding substrings using Python slicing.
 
 The overlap constraint is enforced using:
 
@@ -49,13 +52,19 @@ where:
 - `start_tuple[2]` is the exclusive index reached after matching the start pattern.
 - `end_tuple[1]` is the starting index of the matched end pattern.
 
-If the condition is satisfied, the substring is reconstructed using:
+Each valid tuple pair reconstructs a substring using:
 
 ```python
 genome[start_tuple[1] : end_tuple[2]]
 ```
 
-which naturally uses Python's exclusive slicing semantics.
+which naturally follows Python's end-exclusive slicing semantics.
+
+The example below demonstrates the complete query workflow.
+
+![Query Processing](images/pattern_finder_query.svg)
+
+**Figure 2.** Example query execution using the stored metadata. The algorithm searches the suffix trie twice, compares metadata associated with the matched prefix and suffix, validates the non-overlapping constraint, and reconstructs the resulting substrings using Python slicing.
 
 ---
 
@@ -111,7 +120,8 @@ suffix-trie-pattern-finder/
 │   └── example_usage.py
 │
 ├── images/
-│   └── suffix_trie_construction.svg
+│   ├── suffix_trie_construction.svg
+│   └── pattern_finder_query.svg
 │
 ├── src/
 │   ├── __init__.py
@@ -199,5 +209,5 @@ Potential extensions to this project include:
 - Support arbitrary alphabets instead of `{A, B, C, D}`
 - Compress the trie into a suffix tree to reduce memory usage
 - Support wildcard pattern matching
-- Visualize query execution using the stored metadata.
+- Visualize dynamic trie construction and query execution interactively.
 - Benchmark against established string-search algorithms and libraries.
